@@ -101,9 +101,8 @@ class Application extends baseApp
                 $changed = true;
             } else {
                 $meta = unserialize(file_get_contents($metadata));
-                $countFile = count($meta);
 
-                if (count($finder) != $countFile) {
+                if (count($finder) != count($meta)) {
                     $changed = true;
                 }
             }
