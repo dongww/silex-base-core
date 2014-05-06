@@ -85,7 +85,7 @@ class DebugBarServiceProvider implements ServiceProviderInterface
         $app['dispatcher']->addListener(KernelEvents::RESPONSE, array($this, 'onKernelResponse'), -1000);
 
         $app->get($app['debug_bar.path'] . '/{path}', function ($path) use ($app) {
-            return $app->sendFile($app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path, 200, array('Content-Type' => 'text/plain'));
+            return $app->sendFile($app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path, 200, array('Content-Type' => 'text/css'));
         })->assert('path', '.+');
     }
 }
