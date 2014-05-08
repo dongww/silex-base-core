@@ -52,6 +52,7 @@ class Application extends baseApp
         $this['config_path'] = $this['app_path'] . '/config';
         $this['view_path'] = $this['app_path'] . '/views';
         $this['cache_path'] = $this['data_path'] . '/cache';
+        $this['web_path'] = $this['root_path'] . '/web';
 
         if ($this['debug']) {
             error_reporting(E_ALL ^ E_NOTICE);
