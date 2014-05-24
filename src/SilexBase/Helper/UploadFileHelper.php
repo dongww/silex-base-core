@@ -9,9 +9,13 @@ namespace SilexBase\Helper;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Filesystem\Filesystem;
 
-class UploadHelper
+class UploadFileHelper
 {
+    const GROUPED_BY_NONE  = 0;
+    const GROUPED_BY_DATE  = 1;
+    const GROUPED_BY_MONTH = 2;
     /**
      * 文件上传目录
      *
@@ -27,6 +31,18 @@ class UploadHelper
     protected $baseUploadUrl;
 
     /**
+     * 文件上传后的分组方式
+     *
+     * @var
+     */
+    protected $groupedBy;
+
+    /**
+     * @var Filesystem
+     */
+    protected $fs;
+
+    /**
      * @return string
      */
     public function getUploadDir()
@@ -40,11 +56,16 @@ class UploadHelper
     public function setUploadDir($uploadDir)
     {
         $this->uploadDir = rtrim(rtrim($uploadDir, '/'), '\\') . '/';
+
     }
 
-    function __construct($uploadDir)
+    function __construct($uploadDir, $baseUploadUrl, $groupedBy = self::GROUPED_BY_NONE)
     {
         $this->setUploadDir($uploadDir);
+        $this->baseUploadUrl = $baseUploadUrl;
+        $this->groupedBy     = $groupedBy;
+
+        $this->fs = new FileSystem();
     }
 
     /**
@@ -66,9 +87,28 @@ class UploadHelper
             $filename = $file->getClientOriginalName();
         }
 
-        $file->move($this->getUploadDir(), $filename);
+        $relativePath = '';
+        switch ($this->groupedBy) {
+            case static::GROUPED_BY_MONTH:
+                $dateObj      = new \DateTime();
+                $relativePath = $dateObj->format('Y-m') . '/';
+                break;
+            case static::GROUPED_BY_DATE:
+                $dateObj      = new \DateTime();
+                $relativePath = $dateObj->format('Y-m') . '/' . $dateObj->format('d') . '/';
+                break;
+            default:
+        }
 
-        return $filename;
+        $toDir = $this->getUploadDir() . $relativePath;
+
+        if (!$this->fs->exists($toDir)) {
+            $this->fs->mkdir($toDir);
+        }
+
+        $file->move($toDir, $filename);
+
+        return $relativePath . $filename;
     }
 
     /**
@@ -105,5 +145,31 @@ class UploadHelper
     public function getRealPath($fileName)
     {
         return realpath($this->uploadDir . $fileName);
+    }
+
+    /**
+     * 获取图片链接
+     *
+     * @param string $fileName
+     * @param string $pre 前缀，一个加前缀的文件例如：small_abc.jpg
+     * @return string
+     */
+    public function getUrl($fileName, $pre = '')
+    {
+        return $this->baseUploadUrl . $pre . $fileName;
+    }
+
+    /**
+     * 移除文件
+     *
+     * @param string $fileName 文件名，例如：abc.jpg、2014-05-06/abc.jpg
+     * @param string $pre 前缀，一个加前缀的文件例如：small_abc.jpg
+     */
+    public function remove($fileName, $pre = '')
+    {
+        $fileName = $this->getUploadDir() . $pre . $fileName;
+        if ($this->fs->exists($fileName)) {
+            $this->fs->remove($fileName);
+        }
     }
 }
