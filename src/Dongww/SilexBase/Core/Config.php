@@ -6,9 +6,9 @@
  * Time: 下午8:02
  */
 
-namespace SilexBase\Core;
+namespace Dongww\SilexBase\Core;
 
-use SilexBase\Exception\Exception;
+use Dongww\SilexBase\Exception\Exception;
 use Symfony\Component\Yaml\Yaml;
 use Symfony\Component\Config\ConfigCache;
 use Symfony\Component\Config\Resource\FileResource;
@@ -46,7 +46,7 @@ class Config
      * 例如：main、admin/main
      *
      * @return array
-     * @throws \SilexBase\Exception\Exception
+     * @throws \Dongww\SilexBase\Exception\Exception
      */
     public function getConfig($name)
     {

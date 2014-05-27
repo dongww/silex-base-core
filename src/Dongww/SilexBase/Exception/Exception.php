@@ -5,7 +5,7 @@
  * Time: 下午1:16
  */
 
-namespace SilexBase\Exception;
+namespace Dongww\SilexBase\Exception;
 
 
 class Exception extends \Exception

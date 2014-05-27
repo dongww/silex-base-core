@@ -5,7 +5,7 @@
  * Time: 上午11:05
  */
 
-namespace SilexBase\Helper;
+namespace Dongww\SilexBase\Helper;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;

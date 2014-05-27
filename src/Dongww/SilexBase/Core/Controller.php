@@ -5,14 +5,14 @@
  * Time: 下午2:28
  */
 
-namespace SilexBase\Core;
+namespace Dongww\SilexBase\Core;
 
 /**
  * 若控制器需要更多功能，可以从该类继承。
  * 该类提供了一些额外的常用方法
  *
  * Class Controller
- * @package SilexBase\Core
+ * @package Dongww\SilexBase\Core
  */
 abstract class Controller
 {

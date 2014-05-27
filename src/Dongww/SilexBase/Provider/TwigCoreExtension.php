@@ -5,7 +5,7 @@
  * Time: 下午1:22
  */
 
-namespace SilexBase\Provider;
+namespace Dongww\SilexBase\Provider;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
  * SilexBase 的核心 Twig 扩展
  *
  * Class TwigCoreExtension
- * @package SilexBase\Provider
+ * @package Dongww\SilexBase\Provider
  */
 class TwigCoreExtension extends \Twig_Extension
 {

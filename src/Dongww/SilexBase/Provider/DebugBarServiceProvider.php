@@ -5,7 +5,7 @@
  * Time: 下午1:53
  */
 
-namespace SilexBase\Provider;
+namespace Dongww\SilexBase\Provider;
 
 use Silex\Application;
 use Silex\ServiceProviderInterface;
@@ -17,7 +17,7 @@ use DebugBar\StandardDebugBar;
  * DebugBar Provider
  *
  * Class DebugBarProvider
- * @package SilexBase\Provider
+ * @package Dongww\SilexBase\Provider
  */
 class DebugBarServiceProvider implements ServiceProviderInterface
 {

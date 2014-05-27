@@ -5,11 +5,11 @@
  * Time: 下午3:46
  */
 
-namespace SilexBase\Core;
+namespace Dongww\SilexBase\Core;
 
 use Silex\Provider;
 use Silex\Application as baseApp;
-use SilexBase\Provider\TwigCoreExtension;
+use Dongww\SilexBase\Provider\TwigCoreExtension;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\ConfigCache;
@@ -24,7 +24,7 @@ use Whoops\Provider\Silex\WhoopsServiceProvider;
  * 负责程序的初始化和运行相关的主要操作
  *
  * Class Application
- * @package SilexBase\Core
+ * @package Dongww\SilexBase\Core
  */
 class Application extends baseApp
 {
@@ -152,7 +152,7 @@ class Application extends baseApp
         }
 
         if ($this['debug']) {
-            $app->register(new \SilexBase\Provider\DebugBarServiceProvider());
+            $app->register(new \Dongww\SilexBase\Provider\DebugBarServiceProvider());
         }
 
         if ($config['service_controller']) {
