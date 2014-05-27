@@ -35,7 +35,7 @@ class UpdateCommand extends Command
 
         $checker = new Checker($this->conn);
 
-        $sql = $checker->getDiffSql('db/structure.yml');
+        $sql = $checker->getDiffSql('app/config/db/structure.yml');
 
         if (empty($sql)) {
             $output->writeln('No changed!');
