@@ -38,12 +38,8 @@ class Checker
             $tables[$tblName] = $newSchema->createTable($tblName);
 
             foreach ($tbl['fields'] as $fieldName => $field) {
-                $options = [];
-                if (isset($field['required'])) {
-                    $options['notnull'] = $field['required'] ? true : false;
-                } else {
-                    $options['notnull'] = false;
-                }
+                $options            = [];
+                $options['notnull'] = isset($field['required']) ? (bool)$field['required'] : false;
 
                 switch ($field['type']) {
                     case 'string':

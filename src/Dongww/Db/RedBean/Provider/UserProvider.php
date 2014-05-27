@@ -1,5 +1,5 @@
 <?php
-namespace Db\RedBean\Provider;
+namespace Dongww\Db\RedBean\Provider;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
