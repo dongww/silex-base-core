@@ -16,6 +16,16 @@ class Checker
 {
     protected $conn;
 
+    protected static $DATA_TYPE_MAP = [
+        'string'   => 'string',
+        'text'     => 'text',
+        'integer'  => 'integer',
+        'float'    => 'float',
+        'datetime' => 'datetime',
+        'date'     => 'date',
+        'time'     => 'time',
+    ];
+
     function __construct(Connection $conn)
     {
         $this->conn = $conn;
@@ -41,28 +51,8 @@ class Checker
                 $options            = [];
                 $options['notnull'] = isset($field['required']) ? (bool)$field['required'] : false;
 
-                switch ($field['type']) {
-                    case 'string':
-                        $tables[$tblName]->addColumn($fieldName, "string", $options);
-                        break;
-                    case 'text':
-                        $tables[$tblName]->addColumn($fieldName, "text", $options);
-                        break;
-                    case 'integer':
-                        $tables[$tblName]->addColumn($fieldName, "integer", $options);
-                        break;
-                    case 'float':
-                        $tables[$tblName]->addColumn($fieldName, "float", $options);
-                        break;
-                    case 'date':
-                        $tables[$tblName]->addColumn($fieldName, "date", $options);
-                        break;
-                    case 'datetime':
-                        $tables[$tblName]->addColumn($fieldName, "datetime", $options);
-                        break;
-                    case 'time':
-                        $tables[$tblName]->addColumn($fieldName, "time", $options);
-                        break;
+                if (isset(self::$DATA_TYPE_MAP[$field['type']])) {
+                    $tables[$tblName]->addColumn($fieldName, self::$DATA_TYPE_MAP[$field['type']], $options);
                 }
             }
 
@@ -100,17 +90,19 @@ class Checker
         }
 
         /** 多对多 */
-        foreach ($data['many_many'] as $mm) {
-            $tblName          = $mm[0] . '_' . $mm[1];
-            $tables[$tblName] = $newSchema->createTable($tblName);
+        if (is_array($data['many_many'])) {
+            foreach ($data['many_many'] as $mm) {
+                $tblName          = $mm[0] . '_' . $mm[1];
+                $tables[$tblName] = $newSchema->createTable($tblName);
 
-            $columnName = $mm[0] . '_id';
-            $tables[$tblName]->addColumn($columnName, "integer");
-            $tables[$tblName]->addForeignKeyConstraint($tables[$mm[0]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+                $columnName = $mm[0] . '_id';
+                $tables[$tblName]->addColumn($columnName, "integer");
+                $tables[$tblName]->addForeignKeyConstraint($tables[$mm[0]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
 
-            $columnName = $mm[1] . '_id';
-            $tables[$tblName]->addColumn($columnName, "integer");
-            $tables[$tblName]->addForeignKeyConstraint($tables[$mm[1]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+                $columnName = $mm[1] . '_id';
+                $tables[$tblName]->addColumn($columnName, "integer");
+                $tables[$tblName]->addForeignKeyConstraint($tables[$mm[1]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+            }
         }
 
         $oldSchema = $this->conn->getSchemaManager()->createSchema();
