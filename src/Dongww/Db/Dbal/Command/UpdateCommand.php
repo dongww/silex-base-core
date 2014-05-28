@@ -17,7 +17,7 @@ class UpdateCommand extends Command
 {
     protected $conn;
 
-    function __construct(Connection $conn, $name = null)
+    public function __construct(Connection $conn, $name = null)
     {
         $this->conn = $conn;
         parent::__construct($name);

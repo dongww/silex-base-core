@@ -26,7 +26,7 @@ class Checker
         'time'     => 'time',
     ];
 
-    function __construct(Connection $conn)
+    public function __construct(Connection $conn)
     {
         $this->conn = $conn;
     }
@@ -59,7 +59,7 @@ class Checker
             $tables[$tblName]->addColumn("id", "integer", array('autoincrement' => true));
             $tables[$tblName]->setPrimaryKey(array("id"));
 
-            /** time_stampable 创建时间，更改时间 */
+            /** timestamp_able 创建时间，更改时间 */
             $timeAble = isset($tbl['timestamp_able']) ? $tbl['timestamp_able'] : false;
             if ($timeAble) {
                 $tables[$tblName]->addColumn('created_at', "datetime");
@@ -74,7 +74,12 @@ class Checker
                 $tables[$tblName]->addColumn("level", "integer", ['notnull' => false]);
 
                 $tables[$tblName]->addColumn("parent_id", "integer", ['notnull' => false]);
-                $tables[$tblName]->addForeignKeyConstraint($tables[$tblName], array('parent_id'), array("id"), array("onUpdate" => "CASCADE"));
+                $tables[$tblName]->addForeignKeyConstraint(
+                    $tables[$tblName],
+                    array('parent_id'),
+                    array("id"),
+                    array("onUpdate" => "CASCADE")
+                );
             }
         }
 
@@ -84,7 +89,12 @@ class Checker
                 foreach ($tbl['parents'] as $p) {
                     $columnName = $p . '_id';
                     $tables[$tblName]->addColumn($columnName, "integer");
-                    $tables[$tblName]->addForeignKeyConstraint($tables[$p], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+                    $tables[$tblName]->addForeignKeyConstraint(
+                        $tables[$p],
+                        array($columnName),
+                        array("id"),
+                        array("onUpdate" => "CASCADE")
+                    );
                 }
             }
         }
@@ -97,11 +107,21 @@ class Checker
 
                 $columnName = $mm[0] . '_id';
                 $tables[$tblName]->addColumn($columnName, "integer");
-                $tables[$tblName]->addForeignKeyConstraint($tables[$mm[0]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+                $tables[$tblName]->addForeignKeyConstraint(
+                    $tables[$mm[0]],
+                    array($columnName),
+                    array("id"),
+                    array("onUpdate" => "CASCADE")
+                );
 
                 $columnName = $mm[1] . '_id';
                 $tables[$tblName]->addColumn($columnName, "integer");
-                $tables[$tblName]->addForeignKeyConstraint($tables[$mm[1]], array($columnName), array("id"), array("onUpdate" => "CASCADE"));
+                $tables[$tblName]->addForeignKeyConstraint(
+                    $tables[$mm[1]],
+                    array($columnName),
+                    array("id"),
+                    array("onUpdate" => "CASCADE")
+                );
             }
         }
 
@@ -110,4 +130,3 @@ class Checker
         return $sql = $oldSchema->getMigrateToSql($newSchema, $this->conn->getDatabasePlatform());
     }
 }
- 
