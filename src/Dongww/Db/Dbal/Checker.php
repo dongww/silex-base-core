@@ -46,9 +46,8 @@ class Checker
 
         $newSchema = new Schema();
         foreach ($data['tables'] as $tblName => $tbl) {
-            $tables[$tblName] = $newSchema->createTable($tblName);
             /** @var \Doctrine\DBAL\Schema\Table $newTable */
-            $newTable = $tables[$tblName];
+            $newTable = $tables[$tblName] = $newSchema->createTable($tblName);
 
             foreach ($tbl['fields'] as $fieldName => $field) {
                 $options            = [];
