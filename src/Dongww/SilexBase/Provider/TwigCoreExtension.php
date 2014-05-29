@@ -20,9 +20,9 @@ class TwigCoreExtension extends \Twig_Extension
 {
     public function getFunctions()
     {
-        return array(
-            'asset' => new \Twig_Function_Method($this, 'asset', array('needs_environment' => true)),
-        );
+        return [
+            'asset' => new \Twig_Function_Method($this, 'asset', ['needs_environment' => true]),
+        ];
     }
 
     /**

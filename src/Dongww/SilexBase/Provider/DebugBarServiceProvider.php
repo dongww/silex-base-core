@@ -50,7 +50,7 @@ class DebugBarServiceProvider implements ServiceProviderInterface
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $response = $event->getResponse();
-        $request = $event->getRequest();
+        $request  = $event->getRequest();
 
         if (!$event->isMasterRequest()) {
             return;
@@ -82,11 +82,14 @@ class DebugBarServiceProvider implements ServiceProviderInterface
 
     public function boot(Application $app)
     {
-        $app['dispatcher']->addListener(KernelEvents::RESPONSE, array($this, 'onKernelResponse'), -1000);
+        $app['dispatcher']->addListener(KernelEvents::RESPONSE, [$this, 'onKernelResponse'], -1000);
 
         $app->get($app['debug_bar.path'] . '/{path}', function ($path) use ($app) {
-            return $app->sendFile($app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path, 200, array('Content-Type' => 'text/css'));
+            return $app->sendFile(
+                $app['debug_bar']->getJavascriptRenderer()->getBasePath() . '/' . $path,
+                200,
+                ['Content-Type' => 'text/css']
+            );
         })->assert('path', '.+');
     }
 }
- 

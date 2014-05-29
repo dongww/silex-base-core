@@ -61,7 +61,7 @@ class Config
         $data = null;
 
         if (!$cache->isFresh()) {
-            $resources = array();
+            $resources = [];
             $resources[] = new FileResource($filePath);
             $cache->write(\serialize(Yaml::parse($filePath)), $resources);
         }

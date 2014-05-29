@@ -39,7 +39,7 @@ class Application extends baseApp
      *
      * @param array $values 附加的 key=>value 参数，若已存在则覆盖
      */
-    public function __construct(array $values = array())
+    public function __construct(array $values = [])
     {
         parent::__construct($values);
 
@@ -113,7 +113,7 @@ class Application extends baseApp
             $locator = new FileLocator($this['config_path']);
             $loader = new YamlFileLoader($locator);
 
-            $resources = array();
+            $resources = [];
 
             foreach ($finder as $file) {
                 $resources[] = new FileResource($file->getRealpath());
@@ -180,20 +180,20 @@ class Application extends baseApp
         }
 
         if ($config['translation']) {
-            $app->register(new Provider\TranslationServiceProvider(), array(
-                'translator.messages' => array(),
-                'translator.domains' => array(
-                    'messages' => array(
+            $app->register(new Provider\TranslationServiceProvider(), [
+                'translator.messages' => [],
+                'translator.domains' => [
+                    'messages' => [
                         $app['locale'] => $app['configurator']->getConfig('translator/' . $app['locale']),
-                    ),
-                ),
-            ));
+                    ],
+                ],
+            ]);
         }
 
         if ($config['http_cache']) {
-            $app->register(new Provider\HttpCacheServiceProvider(), array(
+            $app->register(new Provider\HttpCacheServiceProvider(), [
                 'http_cache.cache_dir' => $app['cache_path'] . '/http',
-            ));
+            ]);
         }
 
         if ($config['serializer']) {
@@ -206,14 +206,14 @@ class Application extends baseApp
 
 
         if ($config['twig']) {
-            $app->register(new Provider\TwigServiceProvider(), array(
+            $app->register(new Provider\TwigServiceProvider(), [
                 'twig.path' => $app['view_path'],
-                'twig.options' => array(
+                'twig.options' => [
                     'cache' => $app['cache_path'] . '/twig',
                     'strict_variables' => false,
                     'debug' => $app['debug']
-                )
-            ));
+                ]
+            ]);
 
             $app['twig']->addExtension(new TwigCoreExtension());
         }
@@ -258,4 +258,4 @@ class Application extends baseApp
 
         $this['debug_bar']['messages']->addMessage($data);
     }
-} 
+}

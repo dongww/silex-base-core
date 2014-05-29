@@ -59,7 +59,7 @@ class UploadFileHelper
 
     }
 
-    function __construct($uploadDir, $baseUploadUrl, $groupedBy = self::GROUPED_BY_NONE)
+    public function __construct($uploadDir, $baseUploadUrl, $groupedBy = self::GROUPED_BY_NONE)
     {
         $this->setUploadDir($uploadDir);
         $this->baseUploadUrl = $baseUploadUrl;
@@ -123,7 +123,7 @@ class UploadFileHelper
     {
         /** @var UploadedFile[] $files */
         $files     = $request->files->get($fieldName);
-        $fileNames = array();
+        $fileNames = [];
 
         foreach ($files as $file) {
             if ($file) {
