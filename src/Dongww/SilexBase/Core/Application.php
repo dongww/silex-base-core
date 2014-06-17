@@ -147,6 +147,8 @@ class Application extends baseApp
         $app    = $this;
         $config = $this['config.main']['providers'];
 
+        require_once $this['config_path'] . '/provider_options.php';
+
         if ($config['doctrine']) {
             $app->register(new Provider\DoctrineServiceProvider());
         }
@@ -231,8 +233,6 @@ class Application extends baseApp
         }
 
         $this->initUserProviders();
-
-        require_once $this['config_path'] . '/provider_options.php';
     }
 
     /**
