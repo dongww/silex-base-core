@@ -147,16 +147,6 @@ class Application extends baseApp
         $app    = $this;
         $config = $this['config.main']['providers'];
 
-        require_once $this['config_path'] . '/provider_options.php';
-
-        if ($config['doctrine']) {
-            $app->register(new Provider\DoctrineServiceProvider());
-        }
-
-        if ($this['debug']) {
-            $app->register(new \Dongww\SilexBase\Provider\DebugBarServiceProvider());
-        }
-
         if ($config['service_controller']) {
             $app->register(new Provider\ServiceControllerServiceProvider());
         }
@@ -230,6 +220,16 @@ class Application extends baseApp
 
         if ($config['http_fragment']) {
             $app->register(new Provider\HttpFragmentServiceProvider());
+        }
+
+        require_once $this['config_path'] . '/provider_options.php';
+
+        if ($config['doctrine']) {
+            $app->register(new Provider\DoctrineServiceProvider());
+        }
+
+        if ($this['debug']) {
+            $app->register(new \Dongww\SilexBase\Provider\DebugBarServiceProvider());
         }
 
         $this->initUserProviders();
