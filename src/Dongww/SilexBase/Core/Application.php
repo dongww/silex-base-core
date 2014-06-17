@@ -47,12 +47,12 @@ class Application extends baseApp
             $this->register(new WhoopsServiceProvider);
         }
 
-        $this['app_path'] = realpath($this['root_path'] . '/app');
-        $this['data_path'] = $this['app_path'] . '/data';
+        $this['app_path']    = realpath($this['root_path'] . '/app');
+        $this['data_path']   = $this['app_path'] . '/data';
         $this['config_path'] = $this['app_path'] . '/config';
-        $this['view_path'] = $this['app_path'] . '/views';
-        $this['cache_path'] = $this['data_path'] . '/cache';
-        $this['web_path'] = $this['root_path'] . '/web';
+        $this['view_path']   = $this['app_path'] . '/views';
+        $this['cache_path']  = $this['data_path'] . '/cache';
+        $this['web_path']    = $this['root_path'] . '/web';
 
         if ($this['debug']) {
             error_reporting(E_ALL ^ E_NOTICE);
@@ -88,7 +88,7 @@ class Application extends baseApp
      */
     protected function initRoutes()
     {
-        $cachePath = $this['cache_path'] . '/config/routes.php';
+        $cachePath   = $this['cache_path'] . '/config/routes.php';
         $routesCache = new ConfigCache($cachePath, $this['debug']);
 
         $changed = false;
@@ -111,7 +111,7 @@ class Application extends baseApp
 
         if ($changed || !$routesCache->isFresh()) {
             $locator = new FileLocator($this['config_path']);
-            $loader = new YamlFileLoader($locator);
+            $loader  = new YamlFileLoader($locator);
 
             $resources = [];
 
@@ -131,7 +131,7 @@ class Application extends baseApp
      */
     protected function initConfig()
     {
-        $app = $this;
+        $app                  = $this;
         $this['configurator'] = $this->share(function () use ($app) {
             return new Config($app['config_path'], $app);
         });
@@ -144,7 +144,7 @@ class Application extends baseApp
      */
     protected function initProviders()
     {
-        $app = $this;
+        $app    = $this;
         $config = $this['config.main']['providers'];
 
         if ($config['doctrine']) {
@@ -182,7 +182,7 @@ class Application extends baseApp
         if ($config['translation']) {
             $app->register(new Provider\TranslationServiceProvider(), [
                 'translator.messages' => [],
-                'translator.domains' => [
+                'translator.domains'  => [
                     'messages' => [
                         $app['locale'] => $app['configurator']->getConfig('translator/' . $app['locale']),
                     ],
@@ -207,11 +207,11 @@ class Application extends baseApp
 
         if ($config['twig']) {
             $app->register(new Provider\TwigServiceProvider(), [
-                'twig.path' => $app['view_path'],
+                'twig.path'    => $app['view_path'],
                 'twig.options' => [
-                    'cache' => $app['cache_path'] . '/twig',
+                    'cache'            => $app['cache_path'] . '/twig',
                     'strict_variables' => false,
-                    'debug' => $app['debug']
+                    'debug'            => $app['debug']
                 ]
             ]);
 
@@ -240,9 +240,12 @@ class Application extends baseApp
      */
     public function initUserProviders()
     {
-        foreach ($this['config.main']['user_providers'] as $provider) {
-            $this->register(new $provider());
+        if ($this['config.main']['user_providers']) {
+            foreach ($this['config.main']['user_providers'] as $provider) {
+                $this->register(new $provider());
+            }
         }
+
     }
 
     /**
