@@ -7,6 +7,7 @@
 
 namespace Dongww\SilexBase\Core;
 
+use Dongww\SilexBase\Developer\Cleaner\RoutesCleaner;
 use Silex\Provider;
 use Silex\Application as baseApp;
 use Dongww\SilexBase\Provider\TwigCoreExtension;
@@ -88,39 +89,20 @@ class Application extends baseApp
      */
     protected function initRoutes()
     {
-        $cachePath   = $this['cache_path'] . '/config/routes.php';
-        $routesCache = new ConfigCache($cachePath, $this['debug']);
+        $cachePath = $this['cache_path'] . '/config/routes.php';
 
-        $changed = false;
+        $rc = new RoutesCleaner(
+            $this,
+            $cachePath,
+            $this['config_path'] . '/routes'
+        );
 
         if ($this['debug']) {
-            $finder = new Finder();
-            $finder->files()->in($this['config_path'] . '/routes');
-
-            $metadata = $cachePath . '.meta';
-            if (!is_file($metadata)) {
-                $changed = true;
+            if ($rc->noCache() || $rc->countFilesChanged() || !$rc->getRoutesCache()->isFresh()) {
+                $rc->clean();
             } else {
-                $meta = unserialize(file_get_contents($metadata));
-
-                if (count($finder) != count($meta)) {
-                    $changed = true;
-                }
+                $this['routes']->addCollection(\unserialize(file_get_contents($cachePath)));
             }
-        }
-
-        if ($changed || !$routesCache->isFresh()) {
-            $locator = new FileLocator($this['config_path']);
-            $loader  = new YamlFileLoader($locator);
-
-            $resources = [];
-
-            foreach ($finder as $file) {
-                $resources[] = new FileResource($file->getRealpath());
-                $this['routes']->addCollection($loader->load($file->getRealpath()));
-            }
-
-            $routesCache->write(\serialize($this['routes']), $resources);
         } else {
             $this['routes']->addCollection(\unserialize(file_get_contents($cachePath)));
         }
