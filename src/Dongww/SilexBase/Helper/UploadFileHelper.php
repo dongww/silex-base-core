@@ -71,16 +71,13 @@ class UploadFileHelper
     /**
      * 上传单个文件
      *
-     * @param Request $request
-     * @param $fieldName
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      * @param bool $autoName
      * @return null|string
      */
-    public function uploadFile(Request $request, $fieldName, $autoName = true)
+    public function uploadFile(UploadedFile $file, $autoName = true)
     {
-        /** @var UploadedFile $file */
-        $file = $request->files->get($fieldName);
-
+//print_r($file);exit;
         if ($autoName) {
             $filename = sprintf('%s.%s', uniqid(), $file->getClientOriginalExtension());
         } else {
@@ -127,7 +124,7 @@ class UploadFileHelper
 
         foreach ($files as $file) {
             if ($file) {
-                $fileNames[] = $this->uploadFile($request, $fieldName, $autoName);
+                $fileNames[] = $this->uploadFile($file, $autoName);
             } else {
                 continue;
             }
