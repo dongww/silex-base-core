@@ -8,6 +8,7 @@
 namespace Dongww\SilexBase\Core;
 
 use Dongww\SilexBase\Developer\Cleaner\RoutesCleaner;
+use Dongww\SilexBase\Provider\SilexBaseServiceProvider;
 use Silex\Provider;
 use Silex\Application as baseApp;
 use Dongww\SilexBase\Provider\TwigCoreExtension;
@@ -188,6 +189,15 @@ class Application extends baseApp
             $app->register(new Provider\SwiftmailerServiceProvider());
         }
 
+        if ($config['security']) {
+            $app->register(new Provider\SecurityServiceProvider());
+
+            require_once $this['config_path'] . '/security.php';
+
+            if ($config['remember_me']) {
+                $app->register(new Provider\RememberMeServiceProvider());
+            }
+        }
 
         if ($config['twig']) {
             $app->register(new Provider\TwigServiceProvider(), [
@@ -199,15 +209,7 @@ class Application extends baseApp
                 ]
             ]);
 
-            $app['twig']->addExtension(new TwigCoreExtension());
-        }
-
-        if ($config['security']) {
-            $app->register(new Provider\SecurityServiceProvider());
-
-            if ($config['remember_me']) {
-                $app->register(new Provider\RememberMeServiceProvider());
-            }
+            $app->register(new SilexBaseServiceProvider());
         }
 
         if ($config['http_fragment']) {
@@ -215,8 +217,6 @@ class Application extends baseApp
         }
 
         $this->initUserProviders();
-
-        require_once $this['config_path'] . '/security.php';
     }
 
     /**
