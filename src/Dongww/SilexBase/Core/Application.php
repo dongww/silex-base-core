@@ -74,7 +74,9 @@ class Application extends baseApp
                         $errorView = '_error.twig';
                 }
 
-                return new Response($this['twig']->render('Error/' . $errorView));
+                return new Response($this['twig']->render('Error/' . $errorView, [
+                    'message' => $e->getMessage(),
+                ]));
             });
         }
 
