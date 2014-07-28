@@ -11,14 +11,7 @@ use Dongww\SilexBase\Developer\Cleaner\RoutesCleaner;
 use Dongww\SilexBase\Provider\SilexBaseServiceProvider;
 use Silex\Provider;
 use Silex\Application as baseApp;
-use Dongww\SilexBase\Provider\TwigCoreExtension;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\Config\FileLocator;
-use Symfony\Component\Config\ConfigCache;
-use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Loader\YamlFileLoader;
-//use Symfony\Component\Validator\Mapping;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
 
 /**
