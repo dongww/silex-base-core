@@ -2,6 +2,14 @@
     "name": "dongww/silex-base-core",
     "type": "library",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "dongww",
+            "email": "dongww@gmail.com",
+            "homepage": "http://www.dongww.com",
+            "role": "Developer"
+        }
+    ],
     "description": "dongww/silex-base 的核心代码",
     "require": {
         "php": ">=5.4",
