@@ -132,6 +132,8 @@ class Application extends baseApp
 
         if ($config['doctrine']) {
             $app->register(new Provider\DoctrineServiceProvider());
+
+            $app['db.options'] = $config['db_options'];
         }
 
         if ($this['debug']) {
@@ -185,6 +187,8 @@ class Application extends baseApp
 
         if ($config['mail']) {
             $app->register(new Provider\SwiftmailerServiceProvider());
+
+            $app['swiftmailer.options'] = $config['mail_options'];
         }
 
         if ($config['security']) {
