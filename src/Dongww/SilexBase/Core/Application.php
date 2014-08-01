@@ -207,6 +207,8 @@ class Application extends baseApp
                 ]
             ]);
 
+            $this['twig.loader.filesystem']->addPath($app['global_view_path']);
+
             $app->register(new SilexBaseServiceProvider());
         }
 
