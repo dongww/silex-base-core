@@ -131,9 +131,8 @@ class Application extends baseApp
         require_once $this['config_path'] . '/provider_options.php';
 
         if ($config['doctrine']) {
+            $app['db.options'] = $app['config.main']['db_options'];
             $app->register(new Provider\DoctrineServiceProvider());
-
-            $app['db.options'] = $config['db_options'];
         }
 
         if ($this['debug']) {
@@ -186,9 +185,8 @@ class Application extends baseApp
         }
 
         if ($config['mail']) {
+            $app['swiftmailer.options'] = $app['config.main']['mail_options'];
             $app->register(new Provider\SwiftmailerServiceProvider());
-
-            $app['swiftmailer.options'] = $config['mail_options'];
         }
 
         if ($config['security']) {
