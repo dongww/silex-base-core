@@ -13,6 +13,7 @@ use Silex\Provider;
 use Silex\Application as baseApp;
 use Symfony\Component\HttpFoundation\Response;
 use Whoops\Provider\Silex\WhoopsServiceProvider;
+use Dongww\SilexBase\Provider\TwigServiceProvider;
 
 /**
  * 继承于 Silex Application，
@@ -42,12 +43,14 @@ class Application extends baseApp
             $this->register(new WhoopsServiceProvider);
         }
 
-        $this['app_path']    = realpath($this['root_path'] . '/app');
-        $this['data_path']   = $this['app_path'] . '/data';
-        $this['config_path'] = $this['app_path'] . '/config';
-        $this['view_path']   = $this['app_path'] . '/views';
-        $this['cache_path']  = $this['data_path'] . '/cache';
-        $this['web_path']    = $this['root_path'] . '/web';
+        $this['app_path']         = realpath($this['root_path'] . '/app');
+        $this['data_path']        = $this['app_path'] . '/data';
+        $this['config_path']      = $this['app_path'] . '/config';
+        $this['src_path']         = $this['app_path'] . '/src';
+        $this['global_view_path'] = $this['app_path'] . '/global_views';
+        $this['view_path']        = $this['src_path'];
+        $this['cache_path']       = $this['data_path'] . '/cache';
+        $this['web_path']         = $this['root_path'] . '/web';
 
         if ($this['debug']) {
             error_reporting(E_ALL ^ E_NOTICE);
@@ -90,7 +93,7 @@ class Application extends baseApp
         $rc = new RoutesCleaner(
             $this,
             $cachePath,
-            $this['config_path'] . '/routes'
+            $this['src_path'] . '/*/*/_resources/routes'
         );
 
         if ($this['debug']) {
@@ -195,7 +198,7 @@ class Application extends baseApp
         }
 
         if ($config['twig']) {
-            $app->register(new Provider\TwigServiceProvider(), [
+            $app->register(new TwigServiceProvider(), [
                 'twig.path'    => $app['view_path'],
                 'twig.options' => [
                     'cache'            => $app['cache_path'] . '/twig',
