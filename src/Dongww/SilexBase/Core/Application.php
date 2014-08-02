@@ -128,8 +128,6 @@ class Application extends baseApp
         $app    = $this;
         $config = $this['config.main']['providers'];
 
-        require_once $this['config_path'] . '/provider_options.php';
-
         if ($config['doctrine']) {
             $app['db.options'] = $app['config.main']['db_options'];
             $app->register(new Provider\DoctrineServiceProvider());
