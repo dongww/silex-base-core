@@ -9,6 +9,7 @@ namespace Dongww\SilexBase\Core;
 
 use Dongww\SilexBase\Developer\Cleaner\RoutesCleaner;
 use Dongww\SilexBase\Provider\SilexBaseServiceProvider;
+use Dongww\SilexBase\Provider\DebugBarServiceProvider;
 use Silex\Provider;
 use Silex\Application as baseApp;
 use Symfony\Component\HttpFoundation\Response;
@@ -130,7 +131,7 @@ class Application extends baseApp
         }
 
         if ($this['debug']) {
-            $app->register(new \Dongww\SilexBase\Provider\DebugBarServiceProvider());
+            $app->register(new DebugBarServiceProvider());
         }
 
         if ($config['service_controller']) {

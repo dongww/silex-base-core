@@ -7,9 +7,6 @@
 
 namespace Dongww\SilexBase\Provider;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\HttpKernelInterface;
-
 /**
  * SilexBase 的核心 Twig 扩展
  *

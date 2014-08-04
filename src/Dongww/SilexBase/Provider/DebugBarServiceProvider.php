@@ -12,6 +12,8 @@ use Silex\ServiceProviderInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use DebugBar\StandardDebugBar;
+use DebugBar\Bridge\DoctrineCollector;
+use Doctrine\DBAL\Logging\DebugStack;
 
 /**
  * DebugBar Provider
@@ -33,9 +35,9 @@ class DebugBarServiceProvider implements ServiceProviderInterface
             });
 
             if (isset($app['db'])) {
-                $debugStack = new \Doctrine\DBAL\Logging\DebugStack();
+                $debugStack = new DebugStack();
                 $app['db']->getConfiguration()->setSQLLogger($debugStack);
-                $app['debug_bar']->addCollector(new \DebugBar\Bridge\DoctrineCollector($debugStack));
+                $app['debug_bar']->addCollector(new DoctrineCollector($debugStack));
             }
         }
 
@@ -60,7 +62,8 @@ class DebugBarServiceProvider implements ServiceProviderInterface
         }
 
         if ($response->isRedirection()
-            || ($response->headers->has('Content-Type') && false === strpos($response->headers->get('Content-Type'), 'html'))
+            || ($response->headers->has('Content-Type') &&
+                false === strpos($response->headers->get('Content-Type'), 'html'))
             || 'html' !== $request->getRequestFormat()
         ) {
             return;
