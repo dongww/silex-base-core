@@ -13,6 +13,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Resource\FileResource;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\Loader\YamlFileLoader;
+use Symfony\Component\Routing\RouteCollection;
 
 class RoutesCleaner implements CleanerInterface
 {
@@ -50,12 +51,14 @@ class RoutesCleaner implements CleanerInterface
 
         $resources = [];
 
+        $routeCollection = new RouteCollection();
+
         foreach ($this->finder as $file) {
             $resources[] = new FileResource($file->getRealpath());
-            $this->app['routes']->addCollection($loader->load($file->getRealpath()));
+            $routeCollection->addCollection($loader->load($file->getRealpath()));
         }
 
-        $this->routesCache->write(\serialize($this->app['routes']), $resources);
+        $this->routesCache->write(\serialize($routeCollection), $resources);
     }
 
     /**

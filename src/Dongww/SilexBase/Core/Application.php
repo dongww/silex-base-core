@@ -96,15 +96,11 @@ class Application extends baseApp
             $this['src_path'] . '/*/*/_resources/routes'
         );
 
-        if ($this['debug']) {
-            if ($rc->noCache() || $rc->countFilesChanged() || !$rc->getRoutesCache()->isFresh()) {
-                $rc->clean();
-            } else {
-                $this['routes']->addCollection(\unserialize(file_get_contents($cachePath)));
-            }
-        } else {
-            $this['routes']->addCollection(\unserialize(file_get_contents($cachePath)));
+        if ($this['debug'] && ($rc->noCache() || $rc->countFilesChanged() || !$rc->getRoutesCache()->isFresh())) {
+            $rc->clean();
         }
+
+        $this['routes']->addCollection(\unserialize(file_get_contents($cachePath)));
     }
 
     /**
