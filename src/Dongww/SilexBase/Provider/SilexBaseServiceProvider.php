@@ -7,7 +7,6 @@
 
 namespace Dongww\SilexBase\Provider;
 
-
 use Silex\Application;
 use Silex\ServiceProviderInterface;
 

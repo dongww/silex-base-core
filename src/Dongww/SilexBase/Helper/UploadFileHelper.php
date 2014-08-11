@@ -71,8 +71,8 @@ class UploadFileHelper
     /**
      * 上传单个文件
      *
-     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
-     * @param bool $autoName
+     * @param  \Symfony\Component\HttpFoundation\File\UploadedFile $file
+     * @param  bool                                                $autoName
      * @return null|string
      */
     public function uploadFile(UploadedFile $file, $autoName = true)
@@ -111,9 +111,9 @@ class UploadFileHelper
     /**
      * 上传多个文件
      *
-     * @param Request $request
-     * @param $fieldName
-     * @param bool $autoName
+     * @param  Request  $request
+     * @param  string   $fieldName
+     * @param  bool     $autoName
      * @return string[]
      */
     public function uploadFiles(Request $request, $fieldName, $autoName = true)
@@ -136,7 +136,7 @@ class UploadFileHelper
     /**
      * 获取图片的文件路径
      *
-     * @param $fileName
+     * @param  string $fileName
      * @return string
      */
     public function getRealPath($fileName)
@@ -147,8 +147,8 @@ class UploadFileHelper
     /**
      * 获取图片链接
      *
-     * @param string $fileName
-     * @param string $pre 前缀，一个加前缀的文件例如：small_abc.jpg
+     * @param  string $fileName
+     * @param  string $pre      前缀，一个加前缀的文件例如：small_abc.jpg
      * @return string
      */
     public function getUrl($fileName, $pre = '')
@@ -160,7 +160,7 @@ class UploadFileHelper
      * 移除文件
      *
      * @param string $fileName 文件名，例如：abc.jpg、2014-05-06/abc.jpg
-     * @param string $pre 前缀，一个加前缀的文件例如：small_abc.jpg
+     * @param string $pre      前缀，一个加前缀的文件例如：small_abc.jpg
      */
     public function remove($fileName, $pre = '')
     {

@@ -41,7 +41,7 @@ class Application extends baseApp
         parent::__construct($values);
 
         if ($this['debug']) {
-            $this->register(new WhoopsServiceProvider);
+            $this->register(new WhoopsServiceProvider());
         }
 
         $this['app_path']         = realpath($this['root_path'] . '/app');

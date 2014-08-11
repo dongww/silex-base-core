@@ -19,7 +19,7 @@ abstract class Controller
     /**
      * 提示操作的结果，并进行转向
      *
-     * @param  string $url 转向网址
+     * @param  string $url  转向网址
      * @param  string $info 操作结果的提示信息
      * @return string
      */

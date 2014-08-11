@@ -7,7 +7,6 @@
 
 namespace Dongww\SilexBase;
 
-
 class TwigEnvironment extends \Twig_Environment
 {
     public function loadTemplate($name, $index = null)

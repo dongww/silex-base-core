@@ -7,7 +7,6 @@
 
 namespace Dongww\SilexBase\Exception;
 
-
 class Exception extends \Exception
 {
 

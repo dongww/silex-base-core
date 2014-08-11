@@ -25,7 +25,7 @@ class TwigCoreExtension extends \Twig_Extension
     /**
      * asset 方法，以解决网站处于子目录时的前台调用文件包含路径问题。
      *
-     * @param \Twig_Environment $twig
+     * @param  \Twig_Environment $twig
      * @param $asset
      * @return string
      */
