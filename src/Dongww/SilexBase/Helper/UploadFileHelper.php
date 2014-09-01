@@ -59,11 +59,20 @@ class UploadFileHelper
 
     }
 
+    /**
+     * @param string $baseUploadUrl
+     */
+    public function setBaseUploadUrl($baseUploadUrl)
+    {
+        $this->baseUploadUrl = rtrim($baseUploadUrl, '/') . '/';
+
+    }
+
     public function __construct($uploadDir, $baseUploadUrl, $groupedBy = self::GROUPED_BY_NONE)
     {
         $this->setUploadDir($uploadDir);
-        $this->baseUploadUrl = $baseUploadUrl;
-        $this->groupedBy     = $groupedBy;
+        $this->setBaseUploadUrl($baseUploadUrl);
+        $this->groupedBy = $groupedBy;
 
         $this->fs = new FileSystem();
     }
